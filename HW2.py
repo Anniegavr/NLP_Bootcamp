@@ -29,20 +29,21 @@ class Disease:
 
 
 class Injury(Disease):
-    def __init__(self, name, sympts):
-        super.__init__(name, sympts)
+    def __init__(self, name, symptoms):
+        super().__init__(name, symptoms)
 
-    def recommend_doctor(self):
+    def recommend_trauma_doc(self):
         name = self.symptoms
         if re.findall("pain", name) or re.findall("injury", name) or re.findall("broken", name) or re.findall("scratch", name):
             print("Oh, you should consult a traumatologist.")
         return
 
-class Infection(Disease):
-    def __init__(self, name, sympts):
-        super.__init__(name, sympts)
 
-    def recommend_doctor(self):
+class Infection(Disease):
+    def __init__(self, name, symptoms):
+        super().__init__(name, symptoms)
+
+    def recommend_infection_doctor(self):
         name = self.symptoms
         if re.findall("skin", name) or re.findall("rash", name) or re.findall("swelling", name):
             print("Oh, you should consult a infectionist.")
@@ -50,31 +51,34 @@ class Infection(Disease):
 
 
 if __name__ == "__main__":
+    problem = ""
+    sympts = ""
+    condition = Disease(problem, sympts)
     answer = input("Do you know the name of your condition?\n")
     if answer == "no":
         answer = input("Did you get injured? yes/no\n")
         if answer == "yes":
-            trauma = input("What happened?\n")
+            problem = input("What happened?\n")
             sympts = input("Insert the symptoms. The doctor will read this information prior to consulting you.\n (Write them in one line, separated by comma.)\n")
-            condition = Injury(trauma, sympts)
-            condition.recommend_doctor()
+            tr = Injury(problem, sympts)
+            tr.recommend_trauma_doc()
         elif answer == "no":
             answer = input("Do you have an infection?\n")
             if answer == "yes":
-                inf = input("What kind of infection?\n")
+                problem = input("What kind of infection?\n")
                 sympts = input(
                     "Insert the symptoms. The doctor will read this information prior to consulting you.\n (Write them in one line, separated by comma.)\n")
-                infection = Infection(inf, sympts)
-                infection.recommend_doctor()
+                infection = Infection(problem, sympts)
+                infection.recommend_infection_doctor()
             elif answer == "no":
-                affection = input("What part of your body is affected?\n")
+                problem = input("What part of your body is affected?\n")
                 sympts = input(
                     "Insert the symptoms. The doctor will read this information prior to consulting you.\n (Write them in one line, separated by comma.)\n")
-                condition = Disease(affection, sympts)
+                condition = Disease(problem, sympts)
                 condition.recommend_doctor()
 
     elif answer == "yes":
-        cond = input("What condition do you have?\n")
+        problem = input("What condition do you have?\n")
         sympts = input("Symptoms?\n (Write them in one line, separated by comma)\n")
-        condition = Disease(cond, sympts)
+        condition = Disease(problem, sympts)
         condition.recommend_doctor()
